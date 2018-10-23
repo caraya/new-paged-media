@@ -1,0 +1,501 @@
+// Paged Media CSS stylesheet
+
+// Font-face declarations
+//
+// Because PrinceXML doesn't support variable fonts
+// and I don't see them doing it in the forseeable future
+// (Not a ding on Prince, it just doesn't make sense from my POV)
+// I have to do one declaration per style per font.
+@font-face {
+  font-family: 'PT Serif';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../fonts/PT_Serif-Web-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PT Serif';
+  font-weight: 400;
+  font-style: italic;
+  font-stretch: normal;
+  src: url('../fonts/PT_Serif-Web-Italic.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'PT Serif';
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../fonts/PT_Serif-Web-Bold.WOFF') format('woff');
+}
+
+@font-face {
+  font-family: 'PT Serif';
+  font-weight: 700;
+  font-style: italic;
+  font-stretch: normal;
+  src: url('../fonts/PT_Serif-Web-BoldItalic.WOFF') format('woff');
+}
+
+// Font Style declarations
+// Global font to use. If we want to we can override in child elements
+html {
+  font-family: 'PT Serif', serif;
+}
+
+h1 {
+  string-set: doctitle content();
+  line-height: 1.3;
+}
+
+p {
+  widows: 4;
+  orphans: 4;
+}
+
+// DEFINE THE DEFAULT PAGE
+@page {
+  size: 8.5in 11in;
+  margin: 0.5in 1in;
+
+  @top-right {
+    content: string(doctitle);
+    font-size: 9pt;
+  }
+
+  @footnote {
+    counter-increment: footnote;
+    float: bottom;
+    column-span: all;
+    height: auto;
+    border-top: 1px thin black;
+    font-size: 12pt;
+  }
+}
+
+// CMYK COLOR SCHEME FOR BOOK
+body[data-type='book'] {
+  color: cmyk(0%, 0%, 100%, 100%);
+  hyphens: auto;
+  font-size: 12pt;
+}
+
+// PAGE COUNTERS
+body[data-type='book']>div[data-type='part']:first-of-type,
+body[data-type='book']>section[data-type='chapter']:first-of-type,
+body[data-type='book']>section[data-type='apendix']:first-of-type {
+  counter-reset: chapter;
+  counter-reset: apendix;
+  counter-reset: figure;
+  counter-reset: table;
+}
+
+body[data-type='book']>section[data-type='chapter']+div[data-type='part'] {
+  counter-reset: none;
+}
+
+// MATCH THE PARTS OF OUR BOOK FILE TO EACH OF OUR PAGES DEFINED LATER
+// Title Page
+section[data-type='titlepage'] {
+  page: titlepage;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Copyright page
+section[data-type='copyright'] {
+  page: copyright;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Dedication
+section[data-type='dedication'] {
+  page: dedication;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// TOC
+section[data-type='toc'] {
+  page: toc;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// remove underlines for links in TOC
+// make links black
+section[data-type='toc'] nav ol li a {
+  text-decoration: none;
+  color: #000000;
+}
+
+// Leader for toc page
+section[data-type='toc'] nav ol li a:after {
+  content: leader('.') target-counter(attr(href), page)
+}
+
+// Foreword
+section[data-type='foreword'] {
+  page: foreword;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Preface*/
+section[data-type='preface'] {
+  page: preface;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Part
+div[data-type='part'] {
+  page: part;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Chapter
+section[data-type='chapter'] {
+  counter-increment: chapter;
+  page: chapter;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// apendix
+section[data-type='apendix'] {
+  counter-increment: apendix;
+  page: apendix;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Glossary*/
+section[data-type='glossary'] {
+  page: glossary;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Bibliography
+section[data-type='bibliography'] {
+  page: bibliography;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Index
+section[data-type='index'] {
+  page: index;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Colophon
+section[data-type='colophon'] {
+  page: colophon;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+// Comon Front Mater Page Numbering in lowercase ROMAN numerals*/
+@page toc:right {
+  @bottom-right-corner {
+    content: counter(page, lower-roman);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page toc:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page foreword:right {
+  @bottom-center {
+    content: counter(page, lower-roman);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page foreword:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page preface:right {
+  @bottom-center {
+    content: counter(page, lower-roman);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page preface:left {
+  @bottom-center {
+    content: counter(page, lower-roman);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+// Common Content Page Numbering  in Arabic numerals 1... 199
+@page titlepage {
+  @bottom-right-corner {
+    content: normal;
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page dedication {
+  // Need this to clean up page numbers in titlepage in Prince*/
+  page-break-before: always;
+
+  @bottom-right-corner {
+    content: normal;
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page chapter {
+  @bottom-center {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+@page chapter:blank {
+
+  // Need this to clean up page numbers in titlepage in Prince*/
+  @top-center {
+    content: 'This page is intentionally left blank';
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page chapter:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page chapter:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page apendix:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page apendix:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page glossary:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page glossary:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page bibliography:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page bibliography:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+@page index:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+
+@page index:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+
+// Footnotes
+span.footnote {
+  float: footnote;
+}
+
+::footnote-marker {
+  content: counter(footnote);
+  list-style-position: inside;
+}
+
+::footnote-marker::after {
+  content: '. ';
+}
+
+::footnote-call {
+  content: counter(footnote);
+  vertical-align: super;
+  font-size: 65%;
+}
+
+// XReferences
+a.xref[href]::after {
+  content: ' [See page 'target-counter(attr(href), page) ']';
+}
+
+// PDF BOOKMARKS
+section[data-type='chapter'] h1 {
+  prince-bookmark-level: 1;
+  prince-bookmark-state: open;
+  prince-bookmark-label: content();
+}
+
+section[data-type='chapter'] h2 {
+  prince-bookmark-level: 2;
+  prince-bookmark-state: open;
+  prince-bookmark-label: content();
+}
+
+section[data-type='chapter'] h3 {
+  -ah-bookmark-level: 3;
+  -ah-bookmark-state: open;
+  -ah-bookmark-label: content();
+  prince-bookmark-level: 3;
+  prince-bookmark-state: open;
+  prince-bookmark-label: content();
+}
+
+section[data-type='chapter'] h4 {
+  -ah-bookmark-level: 4;
+  prince-bookmark-level: 4;
+}
+
+section[data-type='chapter'] h5 {
+  -ah-bookmark-level: 5;
+  prince-bookmark-level: 5;
+}
+
+section[data-type='chapter'] h6 {
+  -ah-bookmark-level: 6;
+  prince-bookmark-level: 6;
+}
+
+// HANDLE CHAPTER AND apendix NUMBERING
+section[data-type='chapter'] h1 {
+  // Reset figure and table counters
+  counter-reset: figure;
+  counter-reset: table;
+}
+
+// increment chapter counter
+// Only chapters and apendices use this trick because
+// there may be more than one of them
+section[data-type='chapter'] h1:before {
+  content: 'Chapter 'counter(chapter) ': ';
+}
+
+// In Chapters, indent all paragraphs after the first.
+// We may want to apply the same technique to other
+// types of content
+section[data-type='chapter'] p:not(:first-of-type) {
+  text-indent: 0.5in;
+}
