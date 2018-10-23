@@ -1,0 +1,414 @@
+@font-face {
+  font-family: "PT Serif";
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url("../fonts/PT_Serif-Web-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "PT Serif";
+  font-weight: 400;
+  font-style: italic;
+  font-stretch: normal;
+  src: url("../fonts/PT_Serif-Web-Italic.woff") format("woff");
+}
+@font-face {
+  font-family: "PT Serif";
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  src: url("../fonts/PT_Serif-Web-Bold.WOFF") format("woff");
+}
+@font-face {
+  font-family: "PT Serif";
+  font-weight: 700;
+  font-style: italic;
+  font-stretch: normal;
+  src: url("../fonts/PT_Serif-Web-BoldItalic.WOFF") format("woff");
+}
+html {
+  font-family: "PT Serif", serif;
+}
+
+body {
+  font-size: 14pt;
+}
+
+figcaption:before {
+  counter-increment: figure;
+  content: "Figure " counter(chapter) "-" counter(figure) ": ";
+}
+
+table > caption:before {
+  counter-increment: table;
+  content: "Table " counter(chapter) "-" counter(table) ": ";
+}
+
+@page {
+  size: 8.5in 11in;
+  margin: 1in;
+  @footnote {
+    counter-increment: footnote;
+    float: bottom;
+    column-span: all;
+    height: auto;
+  }
+}
+body[data-type=book] > div[data-type=part]:first-of-type,
+body[data-type=book] > section[data-type=chapter]:first-of-type {
+  counter-reset: figure;
+  counter-reset: table;
+}
+
+body[data-type=book] > section[data-type=chapter] + div[data-type=part] {
+  counter-reset: none;
+}
+
+section[data-type=frontcover] {
+  page: cover;
+}
+
+section[data-type=titlepage] {
+  page: titlepage;
+}
+
+section[data-type=copyright] {
+  page: copyright;
+}
+
+section[data-type=dedication] {
+  page: dedication;
+  page-break-before: always;
+}
+
+section[data-type=toc] {
+  page: toc;
+  page-break-before: always;
+}
+
+section[data-type=toc] nav ol li a:after {
+  content: leader(dotted) " " target-counter(attr(href, url), page);
+}
+
+section[data-type=foreword] {
+  page: foreword;
+}
+
+section[data-type=preface] {
+  page: preface;
+}
+
+div[data-type=part] {
+  page: part;
+}
+
+section[data-type=chapter] {
+  page: chapter;
+  page-break-before: always;
+}
+
+section[data-type=appendix] {
+  page: appendix;
+  page-break-before: always;
+}
+
+section[data-type=glossary] {
+  page: glossary;
+}
+
+section[data-type=bibliography] {
+  page: bibliography;
+}
+
+section[data-type=index] {
+  page: index;
+}
+
+section[data-type=colophon] {
+  page: colophon;
+}
+
+@page cover {
+  content: url("images/cover.png");
+  width: 100%;
+  height: 100%;
+}
+@page toc:right {
+  @bottom-right-corner {
+    content: counter(page, lower-roman);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page toc:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page foreword:right {
+  @bottom-center {
+    content: counter(page, lower-roman);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page foreword:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page preface:right {
+  @bottom-center {
+    content: counter(page, lower-roman);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page preface:left {
+  @bottom-center {
+    content: counter(page, lower-roman);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page titlepage {
+  page-break-before: always;
+  page-break-after: always;
+  @bottom-right-corner {
+    content: normal;
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page dedication {
+  page-break-before: always;
+  page-break-after: always;
+  @bottom-right-corner {
+    content: normal;
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page chapter {
+  @bottom-center {
+    vertical-align: middle;
+    text-align: center;
+    content: string(doctitle);
+  }
+}
+@page chapter:blank {
+  @top-center {
+    content: "This page is intentionally left blank";
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page chapter:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page chapter:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page appendix:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page appendix:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page glossary:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page glossary:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page bibliography:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page bibliography:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+@page index:right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+  @bottom-left-corner {
+    content: normal;
+  }
+}
+@page index:left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+  @bottom-right-corner {
+    content: normal;
+  }
+}
+section[data-type=chapter] h1 {
+  string-set: doctitle content();
+  counter-reset: figure;
+  counter-reset: table;
+  counter-increment: chapter;
+  line-height: 1.3;
+}
+
+section[data-type=chapter] h1:before {
+  content: "Chapter " counter(chapter) ". ";
+}
+
+section[data-type=appendix] h1:before {
+  counter-increment: chapter;
+  content: "Appendix " counter(chapter, upper-alpha) ":  ";
+}
+
+span.footnote {
+  float: footnote;
+}
+
+::footnote-marker {
+  content: counter(footnote);
+  list-style-position: inside;
+}
+
+::footnote-marker::after {
+  content: ". ";
+}
+
+::footnote-call {
+  content: counter(footnote);
+  vertical-align: super;
+  font-size: 65%;
+}
+
+a.xref[href]::after {
+  content: " [See page " target-counter(attr(href), page) "]";
+}
+
+section[data-type=chapter] h1,
+section[data-type=appendix] h1,
+section[data-type=glossary] h1,
+section[data-type=bibliography] h1,
+section[data-type=index] h1 {
+  -ah-bookmark-level: 1;
+  -ah-bookmark-state: open;
+  -ah-bookmark-label: content();
+  prince-bookmark-level: 1;
+  prince-bookmark-state: closed;
+  prince-bookmark-label: content();
+}
+
+section[data-type=chapter] h2,
+section[data-type=appendix] h2,
+section[data-type=glossary] h2,
+section[data-type=bibliography] h2,
+section[data-type=index] h2 {
+  -ah-bookmark-level: 2;
+  -ah-bookmark-state: closed;
+  -ah-bookmark-label: content();
+  prince-bookmark-level: 2;
+  prince-bookmark-state: closed;
+  prince-bookmark-label: content();
+}
+
+section[data-type=chapter] h3,
+section[data-type=appendix] h3,
+section[data-type=glossary] h3,
+section[data-type=bibliography] h3,
+section[data-type=index] h3 {
+  -ah-bookmark-level: 3;
+  -ah-bookmark-state: closed;
+  -ah-bookmark-label: content();
+  prince-bookmark-level: 3;
+  prince-bookmark-state: closed;
+  prince-bookmark-label: content();
+}
+
+section[data-type=chapter] h4,
+section[data-type=appendix] h4,
+section[data-type=glossary] h4,
+section[data-type=bibliography] h4,
+section[data-type=index] h4 {
+  -ah-bookmark-level: 4;
+  prince-bookmark-level: 4;
+}
+
+section[data-type=chapter] h5,
+section[data-type=appendix] h5,
+section[data-type=glossary] h5,
+section[data-type=bibliography] h5,
+section[data-type=index] h5 {
+  -ah-bookmark-level: 5;
+  prince-bookmark-level: 5;
+}
+
+section[data-type=chapter] h6,
+section[data-type=appendix] h6,
+section[data-type=glossary] h6,
+section[data-type=bibliography] h6,
+section[data-type=index] h6 {
+  -ah-bookmark-level: 6;
+  prince-bookmark-level: 6;
+}
+
+/*# sourceMappingURL=pm-main.css.map */
